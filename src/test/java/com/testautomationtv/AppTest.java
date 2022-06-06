@@ -7,9 +7,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.List;
+
+// there's a serious difference between JUnit 4 and JUnit 5.
 
 /**
  * Unit test for simple App.
@@ -32,5 +36,17 @@ public class AppTest
         final Select selectMenu = new Select(driver.findElement(By.id("select-menu")));
         selectMenu.selectByVisibleText("Option 3");
         Assertions.assertEquals("3", selectMenu.getFirstSelectedOption().getAttribute("value"));
+        Assertions.assertEquals(false, selectMenu.isMultiple());// assertTrue method causes a strange error
+        //  class file for java.util.function.BooleanSupplier not found
+
+        final Select selectMulti = new Select(driver.findElement(By.id("select-multi")));
+        Assertions.assertEquals(true, selectMulti.isMultiple());
+
+        List<WebElement> options =selectMenu.getOptions();
+        Assertions.assertEquals(4, options.size());
+
+        Assertions.assertEquals("Option 1", options.get(0).getText());
+
+
     }
 }
