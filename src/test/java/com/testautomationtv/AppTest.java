@@ -46,7 +46,14 @@ public class AppTest
         Assertions.assertEquals(4, options.size());
 
         Assertions.assertEquals("Option 1", options.get(0).getText());
+    }
 
-
+    @Test
+    public void doItWithPageFactory()
+    {
+        PageSupport supp = new PageSupport(driver);
+        supp.singleResendButton.click();
+        Assertions.assertEquals("Received message: selected 1",
+                supp.waitForMessageText());
     }
 }
