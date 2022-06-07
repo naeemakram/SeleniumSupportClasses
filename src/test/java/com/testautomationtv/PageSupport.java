@@ -24,7 +24,8 @@ public class PageSupport extends PageFactory {
     {
         this.driver = driver;
 //        initElements(driver, this);
-        initElements(new AjaxElementLocatorFactory(driver, 10), this);
+        initElements(new VisibleElementAjaxFactory(driver, 10), this);
+//        initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
     public String getForMessageText() {

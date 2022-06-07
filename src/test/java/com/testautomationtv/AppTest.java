@@ -21,7 +21,7 @@ import java.util.List;
 public class AppTest 
 {
     static WebDriver driver;
-    static final String url = "https://eviltester.github.io/supportclasses/";
+    static final String url = "https://eviltester.github.io/supportclasses/#_2000";
 
     @BeforeAll
     public static void beforeYou()
