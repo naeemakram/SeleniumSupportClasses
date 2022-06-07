@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,13 +23,11 @@ public class PageSupport extends PageFactory {
     public PageSupport(WebDriver driver)
     {
         this.driver = driver;
-        initElements(driver, this);
+//        initElements(driver, this);
+        initElements(new AjaxElementLocatorFactory(driver, 10), this);
     }
 
-    public String waitForMessageText() {
-        return new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.visibilityOf(
-                        message
-                )).getText();
+    public String getForMessageText() {
+        return message.getText();
     }
 }

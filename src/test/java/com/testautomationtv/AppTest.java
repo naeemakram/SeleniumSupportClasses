@@ -54,6 +54,6 @@ public class AppTest
         PageSupport supp = new PageSupport(driver);
         supp.singleResendButton.click();
         Assertions.assertEquals("Received message: selected 1",
-                supp.waitForMessageText());
+                supp.getForMessageText());
     }
 }
