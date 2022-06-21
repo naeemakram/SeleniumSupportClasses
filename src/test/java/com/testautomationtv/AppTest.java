@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
@@ -21,25 +22,30 @@ import java.util.List;
 public class AppTest 
 {
     static WebDriver driver;
+    static WebDriver fancyDriver;
     static final String url = "https://eviltester.github.io/supportclasses/#_2000";
 
     @BeforeAll
     public static void beforeYou()
     {
         WebDriverManager.chromedriver().setup();
+        CustomWebDriverListener myListener = new CustomWebDriverListener();
+
         driver = new ChromeDriver();
-        driver.get(url);
+        fancyDriver = new EventFiringDecorator(myListener).decorate(driver);
+        fancyDriver.get(url);
     }
+
     @Test
     public void canSelectAnOptionUsingFindElements()
     {
-        final Select selectMenu = new Select(driver.findElement(By.id("select-menu")));
+        final Select selectMenu = new Select(fancyDriver.findElement(By.id("select-menu")));
         selectMenu.selectByVisibleText("Option 3");
         Assertions.assertEquals("3", selectMenu.getFirstSelectedOption().getAttribute("value"));
         Assertions.assertEquals(false, selectMenu.isMultiple());// assertTrue method causes a strange error
         //  class file for java.util.function.BooleanSupplier not found
 
-        final Select selectMulti = new Select(driver.findElement(By.id("select-multi")));
+        final Select selectMulti = new Select(fancyDriver.findElement(By.id("select-multi")));
         Assertions.assertEquals(true, selectMulti.isMultiple());
 
         List<WebElement> options =selectMenu.getOptions();
@@ -51,7 +57,7 @@ public class AppTest
     @Test
     public void doItWithPageFactory()
     {
-        PageSupport supp = new PageSupport(driver);
+        PageSupport supp = new PageSupport(fancyDriver);
         supp.singleResendButton.click();
         Assertions.assertEquals("Received message: selected 1",
                 supp.getForMessageText());
